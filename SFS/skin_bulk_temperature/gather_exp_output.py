@@ -27,12 +27,28 @@ def get_data_path(exp_name="SFS_Baseline"):
 
 # User inputs
 get_inputs = argparse.ArgumentParser(prog='\n"gather_exp_output.py"',\
-description='To gather data from HPSS archive', usage='%(prog)s [options]')
+description='To gather data from HPSS archive', usage='%(prog)s [options]',\
+formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 get_inputs.add_argument('--exp_name', type=str,\
-                        metavar='Name of the experiment', default="SFS_Baseline")
+                        metavar='Name of the experiment',\
+                        help="Either from OAR labs or EMC", default="SFS_Baseline")
+# year, month
+# filePref, fileSuff
+
+get_inputs.add_argument('--output_dir', type=str,\
+                        metavar='Name of the directory where output will go',\
+                        help="This should be in-sync with your .gitignore", default="data")
 args = get_inputs.parse_args()
 # --
 
 sfs_path = get_data_path(args.exp_name)
 print("\nGathering data in path:\n{}\n".format(sfs_path))
+
+# Create dir that will hold data (temporarily)
+cwd = os.getcwd()
+if not os.path.exists(cwd+"/"+args.output_dir):
+  stat = subprocess.run(["mkdir", "-p", args.output_dir], check=False, capture_output=False)
+  if stat.returncode == 0:
+    print("\nGathered data will be saved to:\n{}\n".format(cwd+"/"+args.output_dir))
+
