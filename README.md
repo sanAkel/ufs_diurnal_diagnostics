@@ -1,5 +1,5 @@
 # What can this code do?
-Ocean (and surface) oriented diurnal diagnostics with the ufs-weather-model output.
+Ocean (and surface) oriented diurnal diagnostics with the [ufs-weather-model](https://github.com/ufs-community/ufs-weather-model) output.
 
 # What's needed for it to work?
 - Access to:
@@ -9,8 +9,7 @@ Ocean (and surface) oriented diurnal diagnostics with the ufs-weather-model outp
   - A _decent_ python environment. To make our life simpler, see below example.
 
 # Python enviroment/packages.
-Following instructions are for [RDHPCS-hera](https://docs.rdhpcs.noaa.gov/systems/hera_user_guide.html) 
-
+Following instructions are for [RDHPCS-hera.](https://docs.rdhpcs.noaa.gov/systems/hera_user_guide.html) 
 If these do not suffice _your_ needs, 
 either [read and follow these instructions](https://docs.rdhpcs.noaa.gov/software/python/index.html) or 
 figure it out; good luck!
