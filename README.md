@@ -8,6 +8,24 @@ Ocean (and surface) oriented diurnal diagnostics with the [ufs-weather-model](ht
     - Here we assume _you_ have access to [NESCC HPSS](https://docs.rdhpcs.noaa.gov/data/nescc_hpss.html), if not, see above and request access to it.
   - A _decent_ python environment. To make our life simpler, see below example.
 
+# How to use it?
+
+```
+git clone git@github.com:sanAkel/ufs_diurnal_diagnostics.git
+cd ufs_diurnal_diagnostics
+``` 
+
+## GFS experiments
+
+-- nothing yet --
+## GEFS experiments
+
+-- nothing yet --
+
+## SFS experiments
+ - `cd SFS/skin_bulk_temperature` 
+ - **Gather data:** `./gather_exp_output.py -h`
+
 # Python enviroment/packages.
 Following instructions are for [RDHPCS-hera.](https://docs.rdhpcs.noaa.gov/systems/hera_user_guide.html) 
 If these do not suffice _your_ needs, 
