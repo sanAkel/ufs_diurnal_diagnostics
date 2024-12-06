@@ -1,4 +1,4 @@
-# Files of following type is what Jessica uses:
+# Files of following type is what we will use (here):
 `rtofs_glo_2ds_f*_prog.nc`
 
 # To extract them from the hpss archive (for e.g., from `20241110` output):
