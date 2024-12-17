@@ -27,6 +27,7 @@ cd ufs_diurnal_diagnostics
  - **Gather data:** `./gather_exp_output.py -h`
 
 # Python enviroment/packages.
+## On hera
 Following instructions are for [RDHPCS-hera.](https://docs.rdhpcs.noaa.gov/systems/hera_user_guide.html) 
 If these do not suffice _your_ needs, 
 either [read and follow these instructions](https://docs.rdhpcs.noaa.gov/software/python/index.html) or 
@@ -39,4 +40,8 @@ ml miniconda3/4.12.0
 conda activate /scratch2/NCEPDEV/marineda/Santha.Akella/envs/py31013
 ```
 
-
+## On Ursa
+```
+source /collab1/data/Santha.Akella/miniconda3/bin/activate
+conda activate xesmf_env
+```

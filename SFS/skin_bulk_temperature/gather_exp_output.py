@@ -4,7 +4,6 @@ import sys
 import os
 import subprocess
 import argparse
-import xarray as xr
 
 # Gather output from SFS experiment(s) listed at:
 # https://docs.google.com/spreadsheets/d/1ZaPhs1-0DTA7e_CrPULGJumevea6IXjk2xw1p-jbYdc/edit?gid=0#gid=0
