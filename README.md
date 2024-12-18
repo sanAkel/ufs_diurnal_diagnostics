@@ -24,7 +24,6 @@ cd ufs_diurnal_diagnostics
 
 ## SFS experiments
  - `cd SFS/skin_bulk_temperature` 
- - **Gather data:** `./gather_exp_output.py -h`
 
 # Python enviroment/packages.
 ## On hera
