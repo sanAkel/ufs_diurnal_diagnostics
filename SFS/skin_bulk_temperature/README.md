@@ -31,4 +31,5 @@ htar -xvf /ESRL/BMC/fim/5year/Shan.Sun/hr4hydro_20240726/c96mx100/19940501/c96mx
 - Above were tested on [niagara.](https://docs.rdhpcs.noaa.gov/systems/niagara_user_guide.html)
 
 ## Python scripts:
-1. See [env set up]()
+- Below were tested on [Ursa.](https://www.nextplatform.com/2024/09/06/noaa-gets-100-million-windfall-for-rhea-research-supercomputer/)
+1. See [env set up](https://github.com/sanAkel/ufs_diurnal_diagnostics/blob/main/README.md#on-ursa)
