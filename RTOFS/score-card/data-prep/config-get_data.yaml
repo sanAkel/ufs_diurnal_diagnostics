@@ -1,0 +1,26 @@
+exp_labels:
+  - v2.4
+# - v2.5
+
+output_path: /collab1/data/Santha.Akella/RTOFS/score_card/
+start_date: 2024-11-17
+end_date: 2025-01-01
+
+nowcast_file_pref: 'rtofs_glo_3dz_n024_daily_3z'
+nowcast_file_suff: 'io.nc' #{s, t, u, v}
+
+fcstcast_file_pref: 'rtofs_glo_3dz_f*_daily_3z'
+fcstcast_file_suff: 'io.nc' #{s, t, u, v}
+
+v2.4:
+  name: v2.4
+  path: /NCEPPROD/1year/hpssprod/runhistory/
+  tar_file_pref: com_rtofs_v2.4_rtofs.
+  tar_file_suff: .nc.tar
+
+v2.5:
+  name: v2.5
+  path: emc-ocean/5year/Dan.Iredell/rtofs.v2.5.test01/
+  tar_file_pref: rtofs
+  tar_file_suff: .ncgrb.tar
+
