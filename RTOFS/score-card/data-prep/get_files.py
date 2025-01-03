@@ -57,10 +57,10 @@ for iexp in range(nEXP):
                           data_date,\
                           config['%s'%(exp_labels[iexp])]['tar_file_pref'],\
                           config['%s'%(exp_labels[iexp])]['tar_file_suff'])
+         #print(cmd0)
 
-         cmd_n = cmd0 + ' ' + './' + config['nowcast_file_pref'] + '*' + config['nowcast_file_suff']
-         cmd_f = cmd0 + ' ' + './' + config['fcstcast_file_pref']+ '*' + config['fcstcast_file_suff']
-         print(cmd0)
+         cmd_n = cmd0 + config['nowcast_file_pref'] + '*' + config['nowcast_file_suff']
+         cmd_f = cmd0 + config['fcstcast_file_pref']+ '*' + config['fcstcast_file_suff']
 
          stat1 = os.system("htar -xvf " + cmd_n)
          if stat1 == 0:

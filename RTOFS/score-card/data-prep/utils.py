@@ -12,6 +12,7 @@ def rtofs_hpss_path(exp_name, path, date, tar_file_pref, tar_file_suff):
          '{}/'.format(date.strftime('%Y%m')) +\
          '{}/'.format(date.strftime('%Y%m%d')) +\
          tar_file_pref + '{}'.format(date.strftime('%Y%m%d')) + tar_file_suff
+    cmd = cmd +  ' ' + './'
 
   elif exp_name == "v2.5":
     # form a string like:
@@ -19,7 +20,7 @@ def rtofs_hpss_path(exp_name, path, date, tar_file_pref, tar_file_suff):
     cmd = path +\
          'rtofs.{}/'.format(date.strftime('%Y%m%d')) +\
          tar_file_pref + tar_file_suff
-         #tar_file_pref + '{}'.format(date.strftime('%Y%m%d')) + tar_file_suff
+    cmd = cmd +  ' '
 
   else:
     sys.exit("\n\nUnknown exp_name. Fix and try again\n\n")
