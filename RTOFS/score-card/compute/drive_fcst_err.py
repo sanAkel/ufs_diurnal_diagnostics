@@ -19,11 +19,13 @@ args = get_inputs.parse_args()
 config_file = args.config_file
 config = yaml.load( open( config_file, "r"), Loader=yaml.FullLoader)
 
+exp = config['exp_name']
 start_date, end_date = [pd.to_datetime(config['start_date']), pd.to_datetime(config['end_date'])]
 vars = config['variables']
+output_path = config['output_path']
 
 for d in pd.date_range(start_date, end_date):
   for var in vars:
-    cmd = "./forecast_error_day.py --proc_date {} --var_name {}".format(d.strftime('%Y%m%d'), var)
+    cmd = "./forecast_error_day.py --exp_name {} --proc_date {} --var_name {} --output_data_path_root {}".format(exp, d.strftime('%Y%m%d'), var, output_path)
     #print(cmd)
     exit_code = os.system(cmd)

@@ -1,7 +1,7 @@
-#start_date: 2024-11-17
-#end_date: 2024-11-30
-
-start_date: 2024-12-01
-end_date: 2024-12-24
+exp_name: "v2.5"
+start_date: 2024-11-15
+end_date: 2024-11-30
 
 variables: ['s', 't', 'u', 'v']
+
+output_path: /home/Santha.Akella/work/RTOFS/
