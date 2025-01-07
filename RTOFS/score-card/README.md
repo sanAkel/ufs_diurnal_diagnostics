@@ -54,7 +54,7 @@ Forecasts from 20250101 HR:           024   048   072   096   120   144   168   
 In `compute/forecast_error_day.py`, for any day (say, `20250101`), we read the time-stamp in forecast files,
 **find the file name** of the nowcast (see above) and difference them:
 
-$e_x(k) = x_f(k) - x_a(k)$
+$e_x(k) = x_f(k) - x_n(k)$
 
 where $x$ denotes one of the following fields: salinity, temperature, zonal, meridional current (s, t, u, v).
 
