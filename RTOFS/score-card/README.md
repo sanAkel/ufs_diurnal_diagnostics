@@ -59,7 +59,7 @@ $e_x(k) = x_f(k) - x_n(k)$
 where $x$ denotes one of the following fields: salinity, temperature, zonal, meridional current (s, t, u, v).
 
 $e_x$ denotes the forecast_error, $x_f$ and $x_n$ denote the corresponding forecast and nowcast fields, 
-and $k = 1, 2, ..., 8$ denotes the day of the forecast. 
+and $k = 1, 2, ..., 8$ denotes the day of the forecast or nowcast. 
 
 **Note**: Above files are saved at `00UTC` of any day.
 
