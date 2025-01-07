@@ -49,7 +49,7 @@ Similar to the above date, i.e., `20250101`, we can get RTOFS nowcast for follow
 ```
 Day number:                           1     2     3     4     5     6     7     8
 Nowcast days:               20250101  0102  0103  0104  0105  0106  0107  0108  0108
-Forecasts from 20250101 HR:           024   048   072   096   120   144   168   192
+Forecast HOUR from 20250101:          024   048   072   096   120   144   168   192
 ```
 In `compute/forecast_error_day.py`, for any day (say, `20250101`), we read the time-stamp in forecast files,
 **find the file name** of the nowcast (see above) and difference them:
