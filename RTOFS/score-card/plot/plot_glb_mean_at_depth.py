@@ -55,12 +55,13 @@ get_inputs.add_argument('--end_date', type=str,\
 args = get_inputs.parse_args()
 # --
 
-output_data_path = args.output_data_path #"/collab1/data/Santha.Akella/RTOFS/score_card/fcst_err/plots/"
-data_path_root = args.input_data_path_root #"/collab1/data/Santha.Akella/RTOFS/score_card/fcst_err/"
-var_name = args.var_name #'s'
-Z0 = args.depth #0
+output_data_path = args.output_data_path
+data_path_root = args.input_data_path_root
+var_name = args.var_name
+Z0 = args.depth
+date_s, date_e = [args.start_date, args.end_date]
 
-date_s, date_e = [args.start_date, args.end_date] #['20241115', '20241224']
+# Following are set for RTOFS
 exp_names = ["v2.4", "v2.5"]
 fPref = "_glob_mean_fcst_err_"
 nDays = 8
