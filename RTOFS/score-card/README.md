@@ -80,4 +80,4 @@ and $k = 1, 2, ..., 8$ denotes the day of the forecast or nowcast.
          above driver simply calls this over a range of dates and variables set via yaml file.
 
 3. `plot`:
-
+    - `./plot_glb_mean_at_depth.py -h` Plot Global mean error for all days of forecast and averaged for `8` days (i.e., 2 plots) for an input depth.
