@@ -85,9 +85,9 @@ for iDate, proc_date in enumerate(pd.date_range(pd.to_datetime(args.start_date),
         print("Processed file for date:\n{} does NOT exist, skipping it.".format(proc_date))
 
       if iexp ==0:
-        im1 = ds.sel(Depth=Z0, method='nearest')[var_names[var_name]].plot(c='b', ls='-', marker='o', label="{}".format(exp_name))
+        im1 = ds.sel(Depth=Z0, method='nearest')[var_names[var_name]].plot(c='b', ls='--', marker='o', label="{}".format(exp_name))
       else:
-        im1 = ds.sel(Depth=Z0, method='nearest')[var_names[var_name]].plot(c='b', ls='--', marker='x', label="{}".format(exp_name))
+        im1 = ds.sel(Depth=Z0, method='nearest')[var_names[var_name]].plot(c='k', ls='-', lw=2, marker='x', label="{}".format(exp_name))
 
       if (iDate==0):
         ax.legend(loc=1)
@@ -97,10 +97,10 @@ for iexp, exp_name in enumerate(exp_names):
 
 ax.axhline(y=0, ls='-', c='k', alpha=0.5)
 ax.set_title("")
-ax.set_ylabel("{} {}".format(var_names[var_name], var_units[var_name]))
+ax.set_ylabel("{} {} at {}m".format(var_names[var_name], var_units[var_name], Z0))
 
 figName= output_data_path + 'depth_{}m_'.format(str(Z0)) + fPref[1:-1] + '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
-plt.savefig(figName)
+plt.savefig(figName, bbox_inches='tight')
 print("Saved plot to:\n{}".format(figName))
 plt.close()
 # --
@@ -113,14 +113,14 @@ fig=plt.figure( figsize=(10, 4), dpi=180)
 ax=fig.add_subplot(111)
 for iexp, exp_name in enumerate(exp_names):
   if iexp ==0:
-    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='b', ls='-', marker='o', label="{}".format(exp_name))
+    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='b', ls='--', marker='o', label="{}".format(exp_name))
   else:
-    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='b', ls='--', marker='x', label="{}".format(exp_name))
+    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='k', ls='-', lw=2, marker='x', label="{}".format(exp_name))
 ax.legend(loc=1)
-ax.set_ylabel("{} {}".format(var_names[var_name], var_units[var_name]))
+ax.set_ylabel("{} {} at {}m".format(var_names[var_name], var_units[var_name], Z0))
 ax.set_xlabel("Days")
 
 figName= output_data_path + 'depth_{}m_AvAllDays_'.format(str(Z0)) + fPref[1:-1] + '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
-plt.savefig(figName)
+plt.savefig(figName, bbox_inches='tight')
 print("Saved plot to:\n{}".format(figName))
 plt.close()
