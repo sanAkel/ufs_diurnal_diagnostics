@@ -113,9 +113,9 @@ fig=plt.figure( figsize=(10, 4), dpi=180)
 ax=fig.add_subplot(111)
 for iexp, exp_name in enumerate(exp_names):
   if iexp ==0:
-    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='b', ls='--', marker='o', label="{}".format(exp_name))
+    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='b', ls='--', marker='o', label="{} ({})".format(exp_name, int(nSamples[iexp])))
   else:
-    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='k', ls='-', lw=2, marker='x', label="{}".format(exp_name))
+    ax.plot( np.arange(1, nDays+1), mean_var[:, iexp], c='k', ls='-', lw=2, marker='x', label="{} ({})".format(exp_name, int(nSamples[iexp])))
 ax.legend(loc=1)
 ax.set_ylabel("{} {} at {}m".format(var_names[var_name], var_units[var_name], Z0))
 ax.set_xlabel("Days")
