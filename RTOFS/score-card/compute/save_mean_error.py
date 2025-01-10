@@ -25,7 +25,7 @@ var_units = {
 
 # user inputs
 
-get_inputs = argparse.ArgumentParser(prog='\nplot_mean_error.py',\
+get_inputs = argparse.ArgumentParser(prog='\nsave_mean_error.py',\
           description='To save and plot mean of global mean forecast errors', usage='%(prog)s [options]')
 
 get_inputs.add_argument('--input_data_path_root', type=str,\
