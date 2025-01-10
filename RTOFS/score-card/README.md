@@ -78,6 +78,8 @@ and $k = 1, 2, ..., 8$ denotes the day of the forecast or nowcast.
       - `./drive_fcst_err.py -h` An example yaml has been provided and known to work (for me!).
       - `forecast_error_day.py -h` to calculate for a single day and variable, 
          above driver simply calls this over a range of dates and variables set via yaml file.
+    - `./save_mean_error.py -h` Calculate and save the absolute (global) mean averaged error for the `8`-days of forecast, average is based on ALL forecasts.
 
 3. `plot`:
     - `./plot_glb_mean_at_depth.py -h` Plot Global mean error for all days of forecast and averaged for `8` days (i.e., 2 plots) for an input depth.
+    - `./plot_av_full_depth.py -h` Plot averages from ALL forecasts, calculated using `compute/save_mean_error.py`
