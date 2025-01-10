@@ -50,7 +50,7 @@ get_inputs.add_argument('--end_date', type=str,\
 
 get_inputs.add_argument('--output_data_path', type=str,\
           help='path where plots are to be saved',\
-          default='/collab1/data/Santha.Akella/RTOFS/score_card/fcst_err/plots/')
+          default='/collab1/data/Santha.Akella/RTOFS/score_card/fcst_err/')
 
 args = get_inputs.parse_args()
 # --
@@ -91,8 +91,8 @@ da = xr.DataArray(
       attrs={"num_samples": str(nSamples), "units": var_units[var_name]})
 
 # Save it to a file for (later) comparisons
-fName_out= output_data_path+\
-           exp_name + '_AV_' + fPref[1:-1] + '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.nc'
+fName_out= output_data_path + '{}/'.format(exp_name) +\
+           '{}'.format(exp_name) + '_AV_' + fPref[1:-1] + '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.nc'
 ds_out=xr.Dataset({var_names[var_name]: da})
 ds_out.to_netcdf(fName_out)
 print("\n\nSaved calculated mean error to:\n{}".format(fName_out))
