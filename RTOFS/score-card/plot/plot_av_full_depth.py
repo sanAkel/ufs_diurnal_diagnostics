@@ -83,10 +83,9 @@ for iexp, exp_name in enumerate(exp_names):
 
   nSamples = int(ds[var_names[var_name]].attrs['num_samples'])
   print("Exp name:\t{}, has {} forecast samples.".format(exp_name, nSamples))
-  if args.num_exp > 1: # save the first (experiment) dataset for comparison with others.
-    if iexp == 0:
-      ds_ctl = ds
-      nSamples_ctl = nSamples
+  if (args.num_exp > 1) and (iexp==0): # save the first (experiment) dataset for comparison with others.
+    ds_ctl = ds
+    nSamples_ctl = nSamples
 
   fig=plt.figure( figsize=(10, 6), dpi=180)
   ax=fig.add_subplot(111)
@@ -98,14 +97,14 @@ for iexp, exp_name in enumerate(exp_names):
   print("Saved plot to:\n{}".format(figName))
   plt.close()
 
-if (do_comparison):
-  fig=plt.figure( figsize=(10, 6), dpi=180)
-  ax=fig.add_subplot(111)
-  (ds[var_names[var_name]]-ds_ctl[var_names[var_name]]).sel(Depth=slice(0, Z0)).plot(yincrease=False)
-  ax.set_title("{}({}) - {}({})".format(exp_names[1], nSamples, exp_names[0], nSamples_ctl))
+  if (iexp>0) and (do_comparison):
+    fig=plt.figure( figsize=(10, 6), dpi=180)
+    ax=fig.add_subplot(111)
+    (ds[var_names[var_name]]-ds_ctl[var_names[var_name]]).sel(Depth=slice(0, Z0)).plot(yincrease=False)
+    ax.set_title("{}({}) - {}({})".format(exp_names[1], nSamples, exp_names[0], nSamples_ctl))
 
-  figName= output_data_path + 'diff_{}_minus_{}_full_depth_mean_err'.format(exp_names[1], exp_names[0]) +\
-           '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
-  plt.savefig(figName, bbox_inches='tight')
-  print("Saved difference plot to:\n{}".format(figName))
-  plt.close()
+    figName= output_data_path + 'diff_{}_minus_{}_full_depth_mean_err'.format(exp_names[1], exp_names[0]) +\
+             '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
+    plt.savefig(figName, bbox_inches='tight')
+    print("Saved difference plot to:\n{}".format(figName))
+    plt.close()
