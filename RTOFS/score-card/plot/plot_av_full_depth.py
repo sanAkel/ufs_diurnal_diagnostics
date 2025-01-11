@@ -101,9 +101,9 @@ for iexp, exp_name in enumerate(exp_names):
     fig=plt.figure( figsize=(10, 6), dpi=180)
     ax=fig.add_subplot(111)
     (ds[var_names[var_name]]-ds_ctl[var_names[var_name]]).sel(Depth=slice(0, Z0)).plot(yincrease=False)
-    ax.set_title("{}({}) - {}({})".format(exp_names[1], nSamples, exp_names[0], nSamples_ctl))
+    ax.set_title("{}({}) - {}({})".format(exp_name, nSamples, exp_names[0], nSamples_ctl))
 
-    figName= output_data_path + 'diff_{}_minus_{}_full_depth_mean_err'.format(exp_names[1], exp_names[0]) +\
+    figName= output_data_path + 'diff_{}_minus_{}_full_depth_mean_err'.format(exp_name, exp_names[0]) +\
              '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
     plt.savefig(figName, bbox_inches='tight')
     print("Saved difference plot to:\n{}".format(figName))
