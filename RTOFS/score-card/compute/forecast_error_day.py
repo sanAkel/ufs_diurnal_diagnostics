@@ -37,6 +37,9 @@ get_inputs.add_argument('--fcst_nDays', type=int,\
 get_inputs.add_argument('--save_top_level', action='store_true',\
   help='Save error at the top level (z=10 m), False if flag is absent')
 
+get_inputs.add_argument('--save_mean_only', action='store_true',\
+  help='Save only the mean error, False if flag is absent')
+
 get_inputs.add_argument('--output_data_path_root', type=str,\
   help='path where forecast error files are to be saved',\
   default='/collab1/data/Santha.Akella/RTOFS/score_card/fcst_err/')
@@ -58,6 +61,7 @@ data_path_root = args.data_path_root
 exp_name = args.exp_name
 proc_date = args.proc_date
 save_top_level = args.save_top_level
+save_mean_only = args.save_mean_only
 output_data_path_root = args.output_data_path_root
 fcst_nDays = args.fcst_nDays
 var_names = args.var_name
@@ -79,7 +83,8 @@ for var in var_names:
   #print(forecast_fNames)
 
   # Read all forecast time-slices (expect 8-days) and rename time coordinate
-  forecast_ds = xr.open_mfdataset(forecast_fNames).rename({'MT': 'time'})
+  forecast_ds = xr.open_mfdataset(forecast_fNames, parallel=True)
+  forecast_ds = forecast_ds.rename({'MT': 'time'})
   var_name = list(forecast_ds.keys())
   print("Differencing:\t{}".format(var_name))
 
@@ -100,16 +105,24 @@ for var in var_names:
     sys.exit("\n\nNot all nowcast files needed to calculate forecast error for 8-days exist. Exiting.\n\n")
 
   # Read corresponding nowcasts
-  nowcast_ds = xr.open_mfdataset(nowcast_fNames).rename({'MT':'time'})
+  nowcast_ds = xr.open_mfdataset(nowcast_fNames, parallel=True)
+  nowcast_ds = nowcast_ds.rename({'MT':'time'})
 
   # Calculate forecast error= forecast - nowcast
   fcst_err = forecast_ds-nowcast_ds
-  glb_mean = fcst_err[var_name].mean( ('Y', 'X'))
+
+  if (save_mean_only):
+    glb_mean = fcst_err[var_name].mean( ('Y', 'X'))
+
+  glb_sdev = fcst_err[var_name].std( ('Y', 'X'))
 
   # Save output file(s)
   fName_fcst_err_pref = output_data_path_root + '{}/'.format(exp_name) + data_date_str
   if (save_top_level):
-    fcst_err.isel(Depth=0).to_netcdf( fName_fcst_err_pref +'_top_lev_fcst_err_'+ var + '.nc')
+    fcst_err.isel(Depth=0).compute().to_netcdf( fName_fcst_err_pref +'_top_lev_fcst_err_'+ var + '.nc')
   
   # set `HDF5_USE_FILE_LOCKING=FALSE` to speed up following?
-  glb_mean.to_netcdf( fName_fcst_err_pref +'_glob_mean_fcst_err_'+ var + '.nc')
+  if (save_mean_only):
+    glb_mean.compute().to_netcdf( fName_fcst_err_pref +'_glob_mean_fcst_err_'+ var + '.nc')
+
+  glb_sdev.compute().to_netcdf( fName_fcst_err_pref +'_glob_sdev_fcst_err_'+ var + '.nc')
