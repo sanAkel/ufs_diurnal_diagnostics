@@ -111,4 +111,5 @@ for var in var_names:
   if (save_top_level):
     fcst_err.isel(Depth=0).to_netcdf( fName_fcst_err_pref +'_top_lev_fcst_err_'+ var + '.nc')
   
+  # set `HDF5_USE_FILE_LOCKING=FALSE` to speed up following?
   glb_mean.to_netcdf( fName_fcst_err_pref +'_glob_mean_fcst_err_'+ var + '.nc')
