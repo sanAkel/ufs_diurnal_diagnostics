@@ -6,10 +6,6 @@ import xarray as xr
 import pandas as pd
 import numpy as np
 
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt
-
 var_names = {
         "s": "salinity",
         "t": "temperature", 
@@ -26,7 +22,7 @@ var_units = {
 # user inputs
 
 get_inputs = argparse.ArgumentParser(prog='\nsave_mean_error.py',\
-          description='To save and plot mean of global mean forecast errors', usage='%(prog)s [options]')
+          description='To save mean of global mean or std deviations from forecast errors', usage='%(prog)s [options]')
 
 get_inputs.add_argument('--input_data_path_root', type=str,\
           help='path where forecast error files were saved',\
@@ -37,6 +33,9 @@ get_inputs.add_argument('--exp_name', type=str,\
 
 get_inputs.add_argument('--var_name', type=str,\
           help='Variable name, one of: s, t, u, v', required=True)
+
+get_inputs.add_argument('--stat', type=str,\
+          help='What statics is being aggregated? mean or sdev?', default='mean')
 
 get_inputs.add_argument('--start_date', type=str,\
           help='Start date for plotting',\
@@ -62,7 +61,10 @@ date_s, date_e = [args.start_date, args.end_date]
 output_data_path = args.output_data_path
 
 # Following are set for RTOFS
-fPref = "_glob_mean_fcst_err_"
+if args.stat == 'mean':
+  fPref = "_glob_mean_fcst_err_"
+else:
+  fPref = "_glob_sdev_fcst_err_"
 # --
 
 nSamples = 0
