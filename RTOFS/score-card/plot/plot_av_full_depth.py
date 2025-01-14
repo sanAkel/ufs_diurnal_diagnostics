@@ -33,6 +33,9 @@ get_inputs.add_argument('--output_data_path', type=str,\
 get_inputs.add_argument('--var_name', type=str,\
           help='Variable name, one of: s, t, u, v', required=True)
 
+get_inputs.add_argument('--stat', type=str,\
+                  help='What statics is being aggregated? mean or sdev?', default='mean')
+
 get_inputs.add_argument('--start_date', type=str,\
           help='Start date for plotting',\
           metavar='example: 2024-11-15',\
@@ -57,14 +60,17 @@ output_data_path = args.output_data_path
 var_name = args.var_name
 date_s, date_e = [args.start_date, args.end_date]
 
-# Following are set for RTOFS
-fPref = "AV_glob_mean_fcst_err_"
-
 Z0 = args.depth_cutOff # plot depth: 0- Z0
 
 if args.num_exp > 1:
   exp_names= ["v2.4", "v2.5"]
   do_comparison= True
+
+# Following are set for RTOFS
+if args.stat == 'mean':
+  fPref = "AV_glob_mean_fcst_err_"
+else:
+  fPref = "AV_glob_sdev_fcst_err_"
 # --
 
 fig=plt.figure( figsize=(12, 4), dpi=180)
@@ -91,7 +97,7 @@ for iexp, exp_name in enumerate(exp_names):
   ax=fig.add_subplot(111)
   ds[var_names[var_name]].sel(Depth=slice(0, Z0)).plot(yincrease=False)
 
-  figName= output_data_path + '{}_full_depth_mean_err'.format(exp_name) +\
+  figName= output_data_path + '{}_full_depth_'.format(exp_name)+args.stat+'_err' +\
            '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
   plt.savefig(figName, bbox_inches='tight')
   print("Saved plot to:\n{}".format(figName))
@@ -103,8 +109,8 @@ for iexp, exp_name in enumerate(exp_names):
     (ds[var_names[var_name]]-ds_ctl[var_names[var_name]]).sel(Depth=slice(0, Z0)).plot(yincrease=False)
     ax.set_title("{}({}) - {}({})".format(exp_name, nSamples, exp_names[0], nSamples_ctl))
 
-    figName= output_data_path + 'diff_{}_minus_{}_full_depth_mean_err'.format(exp_name, exp_names[0]) +\
-             '_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
+    figName= output_data_path + 'diff_{}_minus_{}_full_depth_'.format(exp_name, exp_names[0]) +\
+             args.stat+'_err_'+var_name+'_'+args.start_date+'_'+args.end_date+'.png'
     plt.savefig(figName, bbox_inches='tight')
     print("Saved difference plot to:\n{}".format(figName))
     plt.close()
