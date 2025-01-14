@@ -1,5 +1,6 @@
-# What is being calculating?
+# What is being in calculations?
 
+Following gives an example of which files are being used.
 On any day, RTOFS production (or parallel) system, 
 for e.g., `20250101` generates following files:
 ```
@@ -45,23 +46,45 @@ HTAR: -rw-rw-r--  ops.prod/prod  624670093 2025-01-01 15:12  ./rtofs_glo_3dz_f19
 
 # How is it done? 
 
-Similar to the above date, i.e., `20250101`, we can get RTOFS nowcast for following
-```
-Day number:                           1     2     3     4     5     6     7     8
-Nowcast days:               20250101  0102  0103  0104  0105  0106  0107  0108  0108
-Forecast HOUR from 20250101:          024   048   072   096   120   144   168   192
-```
-In `compute/forecast_error_day.py`, for any day (say, `20250101`), we read the time-stamp in forecast files,
-**find the file name** of the nowcast (see above) and difference them:
+It is clear from the :arrow_up: example that for any given day ($d$), we have:
 
-$e_x(k) = x_f(k) - x_n(k)$
-
-where $x$ denotes one of the following fields: salinity, temperature, zonal, meridional current (s, t, u, v).
-
-$e_x$ denotes the forecast_error, $x_f$ and $x_n$ denote the corresponding forecast and nowcast fields, 
-and $k = 1, 2, ..., 8$ denotes the day of the forecast or nowcast. 
+- A nowcast, denote that by $x_n(d),$
+- Forecast fields: $x_f(d+k).,$
+- Where $k$ denotes =$1, 2, 3, ...8$ days, all these forecasts and nowcasts are saved at `00` UTC.
+- Where $x$ denotes one of the following fields: salinity, temperature, zonal, meridional current, in short: `s`, `t`, `u`, `v`.
 
 **Note**: Above files are saved at `00UTC` of any day.
+
+For $d$=`20250101`, we can get following RTOFS forecasts:
+
+```
+Day number (k):                         1     2     3     4     5     6     7     8
+Nowcast days(d):              20250101  0102  0103  0104  0105  0106  0107  0108  0108
+Forecast HOUR from 20250101:            024   048   072   096   120   144   168   192
+```
+
+Given nowcasts (or analyses) valid on any given day ($d$) and on future dates($d+k$), we can calculate forecast error (in hindcast mode),
+$e_x(k) = x_f(d+k) - x_n(d+k),$ for $k= 1, 2, ...8; x= [s, t, u, v].$
+
+Each $e_x(k)$ is a 3-d field of dimensions: $n_i, n_j, n_k$ where the horizontal and vertical resolutions are denoted 
+by $n_i\timesn_j$ and $n_k$ respectively.
+
+- We calculate spatial statistics: global mean ($\mu$) and standard deviation (sdev; $\sigma$) of any $e_x(k).$
+- Therefore, for each $k,$ we have $\mu(k)$ and $\sigma(k)$ at each of the vertical depth levels: $n_k.$
+  - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp in forecast files,
+**find the file name** of the nowcast (see above) and difference them to calculate: $e(k), \mu(k), \sigma(k)$ for any variable ($x).
+  - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$), or `number of samples`. 
+- Another useful metric is to calculate the day-1, day-2, ..., day-8 forecast errors at any depth level ($n_k$).
+  For this, we aggregate all forecasts from different initialization dates ($d$): $e_d(k)$ to calculate mean:
+  $\frac{1}{N_d}\sum_1, d e_d(k)$ for each $k=1, 2, ..., 8$ and similarly standard deviation.
+  - **Note**: The sample size for this calculaion is the number of available hindcasts: $N_d.$
+  - In `??.py` ...
+
+
+
+
+
+
 
 # Structure of files/folder(s) and order of work:
 
