@@ -72,7 +72,7 @@ by $n_i \times n_j$ and $n_k$ respectively.
 - We calculate spatial statistics: global mean ($\mu$) and standard deviation (sdev; $\sigma$) of any $e_x(k).$
 - Therefore, for each $k,$ we have $\mu(k)$ and $\sigma(k)$ at each of the vertical depth levels: $n_k.$
   - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp ($k$) in forecast files,
-**find the file name** of the nowcast (see above) and difference them to calculate: $e(k)$ :right_arrow: $\mu(k), \sigma(k)$ for any variable ($x$).
+**find the file name** of the nowcast (see above) and difference them to calculate: $e(k)$ :arrow_right: $\mu(k), \sigma(k)$ for any variable ($x$).
   - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$) or `number of samples`. 
 - Another useful metric is to calculate the day-1, day-2, ..., day-8 forecast errors at any depth level ($n_k$).
   For this, we aggregate all forecasts from different initialization dates ($d$): $e_d(k)$ to calculate mean:
