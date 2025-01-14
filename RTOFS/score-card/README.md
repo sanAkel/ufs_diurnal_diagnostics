@@ -1,4 +1,4 @@
-# What is being in calculations?
+# What is being used in calculations?
 
 Following gives an example of which files are being used.
 On any day, RTOFS production (or parallel) system, 
@@ -50,10 +50,8 @@ It is clear from the :arrow_up: example that for any given day ($d$), we have:
 
 - A nowcast, denote that by $x_n(d),$
 - Forecast fields: $x_f(d+k).,$
-- Where $k$ denotes =$1, 2, 3, ...8$ days, all these forecasts and nowcasts are saved at `00` UTC.
+- Where $k$ denotes 1, 2, 3, ..., 8 days, all these forecasts and nowcasts are saved at `00` UTC.
 - Where $x$ denotes one of the following fields: salinity, temperature, zonal, meridional current, in short: `s`, `t`, `u`, `v`.
-
-**Note**: Above files are saved at `00UTC` of any day.
 
 For $d$=`20250101`, we can get following RTOFS forecasts:
 
@@ -63,20 +61,22 @@ Nowcast days(d):              20250101  0102  0103  0104  0105  0106  0107  0108
 Forecast HOUR from 20250101:            024   048   072   096   120   144   168   192
 ```
 
-Given nowcasts (or analyses) valid on any given day ($d$) and on future dates($d+k$), we can calculate forecast error (in hindcast mode),
-$e_x(k) = x_f(d+k) - x_n(d+k),$ for $k= 1, 2, ...8; x= [s, t, u, v].$
+Given nowcasts (or analyses) and forecasts valid on any given day, we can calculate forecast error (in hindcast mode),
+$e_x(k) = x_f(k) - x_n(k),$ for $k= 1, 2, ...8; x= [s, t, u, v],$ as if the analysis is _truth_. 
+Such calculation is possible only if we have saved the analysis fields ($x_n$) for the 8 days that 
+correspond to the days of the forecast ($x_f$).  
 
-Each $e_x(k)$ is a 3-d field of dimensions: $n_i, n_j, n_k$ where the horizontal and vertical resolutions are denoted 
-by $n_i\timesn_j$ and $n_k$ respectively.
+Each $e_x(k)$ is a 3-d field of dimensions: $[n_i, n_j, n_k]$ where the horizontal and vertical resolutions are denoted 
+by $n_i \times n_j$ and $n_k$ respectively.
 
 - We calculate spatial statistics: global mean ($\mu$) and standard deviation (sdev; $\sigma$) of any $e_x(k).$
 - Therefore, for each $k,$ we have $\mu(k)$ and $\sigma(k)$ at each of the vertical depth levels: $n_k.$
-  - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp in forecast files,
-**find the file name** of the nowcast (see above) and difference them to calculate: $e(k), \mu(k), \sigma(k)$ for any variable ($x).
-  - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$), or `number of samples`. 
+  - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp ($k$) in forecast files,
+**find the file name** of the nowcast (see above) and difference them to calculate: $e(k)$ :right_arrow: $\mu(k), \sigma(k)$ for any variable ($x$).
+  - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$) or `number of samples`. 
 - Another useful metric is to calculate the day-1, day-2, ..., day-8 forecast errors at any depth level ($n_k$).
   For this, we aggregate all forecasts from different initialization dates ($d$): $e_d(k)$ to calculate mean:
-  $\frac{1}{N_d}\sum_1, d e_d(k)$ for each $k=1, 2, ..., 8$ and similarly standard deviation.
+  $\frac{1}{N_d}\sum e_d(k)$ for each $k=1, 2, ..., 8$ and similarly standard deviation.
   - **Note**: The sample size for this calculaion is the number of available hindcasts: $N_d.$
   - In `??.py` ...
 
