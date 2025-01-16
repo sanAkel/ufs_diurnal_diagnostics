@@ -57,7 +57,7 @@ For $d$=`20250101`, we can get following RTOFS forecasts:
 
 ```
 Day number (k):                         1     2     3     4     5     6     7     8
-Nowcast days(d):              20250101  0102  0103  0104  0105  0106  0107  0108  0108
+Nowcast days(d):              20250101  0102  0103  0104  0105  0106  0107  0108  0109
 Forecast HOUR from 20250101:            024   048   072   096   120   144   168   192
 ```
 
@@ -66,25 +66,19 @@ $e_x(k) = x_f(k) - x_n(k),$ for $k= 1, 2, ...8; x= [s, t, u, v],$ as if the anal
 Such calculation is possible only if we have saved the analysis fields ($x_n$) for the 8 days that 
 correspond to the days of the forecast ($x_f$).  
 
-Each $e_x(k)$ is a 3-d field of dimensions: $[n_i, n_j, n_k]$ where the horizontal and vertical resolutions are denoted 
-by $n_i \times n_j$ and $n_k$ respectively.
+Each $e_x(k)$ is a 3-d field of dimensions: $[n_i, n_j, n_l]$ where the horizontal and vertical resolutions are denoted 
+by $n_i \times n_j$ and $n_l$ respectively.
 
 - We calculate spatial statistics: global mean ($\mu$) and standard deviation (sdev; $\sigma$) of any $e_x(k).$
-- Therefore, for each $k,$ we have $\mu(k)$ and $\sigma(k)$ at each of the vertical depth levels: $n_k.$
-  - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp ($k$) in forecast files,
-**find the file name** of the nowcast (see above) and difference them to calculate: $e(k)$ :arrow_right: $\mu(k), \sigma(k)$ for any variable ($x$).
-  - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$) or `number of samples`. 
 - Another useful metric is to calculate the day-1, day-2, ..., day-8 forecast errors at any depth level ($n_k$).
   For this, we aggregate all forecasts from different initialization dates ($d$): $e_d(k)$ to calculate mean:
   $\frac{1}{N_d}\sum e_d(k)$ for each $k=1, 2, ..., 8$ and similarly standard deviation.
   - **Note**: The sample size for this calculaion is the number of available hindcasts: $N_d.$
   - In `??.py` ...
-
-
-
-
-
-
+- Therefore, for each $k,$ we have $\mu(k)$ and $\sigma(k)$ at each of the vertical depth levels: $n_l.$
+  - In `compute/forecast_error_day.py`, for any day (say, $d=$ `20250101`), we read the time-stamp ($k$) in forecast files,
+**find the file name** of the nowcast (see above) and difference them to calculate: $e(k)$ :arrow_right: $\mu(k), \sigma(k)$ for any variable ($x$).
+  - In `compute/save_mean_error.py`, we calculate the mean and standard deviation over all days ($d$) or `number of samples`. 
 
 # Structure of files/folder(s) and order of work:
 
