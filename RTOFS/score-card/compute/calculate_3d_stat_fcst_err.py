@@ -126,8 +126,8 @@ fName_mean = output_data_path_root + '{}/'.format(exp_name) +\
 fName_sdev = output_data_path_root + '{}/'.format(exp_name) +\
   '3d_sdev_{}_{}_{}.nc'.format(var_name_short, start_date.strftime("%Y%m%d"), end_date.strftime("%Y%m%d"))
   
-print(f'Saving averaged field to:\n{fName_mean}')
+print(f'Saving averaged field to:\n{fName_mean}\n This may take some time.')
 mean_fcst_err.to_netcdf( fName_mean)
 
-print(f'Calculating and saving standard deviation to:\n{fName_sdev}\nThis will take some time.')
+print(f'Calculating and saving standard deviation to:\n{fName_sdev}\n Be patient!')
 sdev_fcst_err.compute().to_netcdf( fName_sdev)
