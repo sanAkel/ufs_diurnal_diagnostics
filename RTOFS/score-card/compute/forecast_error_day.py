@@ -77,7 +77,7 @@ data_date_str = data_date.strftime("%Y%m%d")
 
 for var in var_names:
 
-  # get fcst err = fcst - anal
+  # get fcst_err = fcst - anal, it is 4-D dataset: 3d + forecast duration (8-days) 
   [fcst_fNames, anal_fNames, fcst_err] = get_forecast_error( proc_date, data_path_root, exp_name, \
   forecast_file_pref, nowcast_file_pref, var, file_suff)
 
