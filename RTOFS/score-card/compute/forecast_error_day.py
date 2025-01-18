@@ -7,6 +7,8 @@ import argparse
 import pandas as pd
 import xarray as xr
 
+from utils import get_forecast_error
+
 import warnings
 warnings.filterwarnings('ignore') 
 # --
@@ -28,7 +30,7 @@ get_inputs.add_argument('--proc_date', type=str,\
         metavar='example: 2024-11-07',\
         required=True)
 
-get_inputs.add_argument('--var_name', type=str,\
+get_inputs.add_argument('--var_name_short', type=str,\
   help='Variable name, one of: s, t, u, v', required=True)
 
 get_inputs.add_argument('--fcst_nDays', type=int,\
@@ -64,7 +66,7 @@ save_top_level = args.save_top_level
 save_mean_only = args.save_mean_only
 output_data_path_root = args.output_data_path_root
 fcst_nDays = args.fcst_nDays
-var_names = args.var_name
+var_names = args.var_name_short
 forecast_file_pref = args.forecast_file_pref
 nowcast_file_pref  = args.nowcast_file_pref
 file_suff = args.file_suff
@@ -73,44 +75,15 @@ file_suff = args.file_suff
 data_date =  pd.to_datetime(proc_date)
 data_date_str = data_date.strftime("%Y%m%d")
 
-data_path = data_path_root + exp_name
-data_path_today = data_path + "/" + "{}".format(data_date_str)
-print("\nRead data from following path:\n{}\n".format(data_path_today))
-
 for var in var_names:
-  forecast_fNames = sorted( glob.glob(data_path_today +\
-           "/" + forecast_file_pref + '*' + '_daily_3z' + var + file_suff))
-  #print(forecast_fNames)
 
-  # Read all forecast time-slices (expect 8-days) and rename time coordinate
-  forecast_ds = xr.open_mfdataset(forecast_fNames, parallel=True)
-  forecast_ds = forecast_ds.rename({'MT': 'time'})
-  var_name = list(forecast_ds.keys())
+  # get fcst err = fcst - anal
+  [fcst_fNames, anal_fNames, fcst_err] = get_forecast_error( proc_date, data_path_root, exp_name, \
+  forecast_file_pref, nowcast_file_pref, var, file_suff)
+
+  var_name = list(fcst_err.keys())
   print("Differencing:\t{}".format(var_name))
-
-  nFcst = len(forecast_ds.time)
-  if nFcst < fcst_nDays:
-    sys.exit("Forecast on\t{} went out to {}-days.\nSkip this date.\n\n".format(data_date_str, nFcst))
-
-  nowcast_fNames = []
-  for iDay in range(nFcst):
-    next_day = forecast_ds.time[iDay]
-    next_day_str = next_day.dt.strftime("%Y%m%d").values
-    data_path_nowcast = data_path + "/" + next_day_str
-    nowcast_fName = data_path_nowcast +\
-                   "/" + nowcast_file_pref + '_daily_3z' + var + file_suff
-    nowcast_fNames.append(nowcast_fName)
-  #print(nowcast_fNames)
-  if not all(list(map(os.path.isfile,nowcast_fNames))):
-    sys.exit("\n\nNot all nowcast files needed to calculate forecast error for 8-days exist. Exiting.\n\n")
-
-  # Read corresponding nowcasts
-  nowcast_ds = xr.open_mfdataset(nowcast_fNames, parallel=True)
-  nowcast_ds = nowcast_ds.rename({'MT':'time'})
-
-  # Calculate forecast error= forecast - nowcast
-  fcst_err = forecast_ds-nowcast_ds
-
+  
   if (save_mean_only):
     glb_mean = fcst_err[var_name].mean( ('Y', 'X'))
 
