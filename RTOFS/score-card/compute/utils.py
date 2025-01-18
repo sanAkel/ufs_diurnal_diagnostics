@@ -29,7 +29,9 @@ def get_forecast_error( proc_date, data_path, exp_name, \
   #print(forecast_fNames)
 
   # Read all forecast time-slices (expect 8-days) and rename time coordinate
-  forecast_ds = xr.open_mfdataset(forecast_fNames, parallel=True)
+  forecast_ds = xr.open_mfdataset(forecast_fNames, parallel=True, engine="h5netcdf")
+  #with xr.open_mfdataset( forecast_fNames) as forecast_ds:
+  #  forecast_ds.load()
   forecast_ds = rename_RTOFS_time(forecast_ds)
 
   #var_name = list(forecast_ds.keys())
@@ -51,7 +53,9 @@ def get_forecast_error( proc_date, data_path, exp_name, \
   check_files_exist(nowcast_fNames)
 
   # Read corresponding nowcasts
-  nowcast_ds = xr.open_mfdataset(nowcast_fNames, parallel=True)
+  nowcast_ds = xr.open_mfdataset(nowcast_fNames, parallel=True, engine="h5netcdf")
+  #with xr.open_mfdataset( nowcast_fNames) as nowcast_ds:
+  #  nowcast_ds.load()
   nowcast_ds = rename_RTOFS_time(nowcast_ds)
 
   # Calculate forecast error= forecast - nowcast
