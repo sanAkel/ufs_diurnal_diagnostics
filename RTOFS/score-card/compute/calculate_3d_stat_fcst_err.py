@@ -95,7 +95,7 @@ mean_fcst_err = (cumSum/nSamples).compute()
 print(f'Calculated 3D mean forecast error using\t {nSamples} samples.')
 
 # -- 2. Calculate standard deviation
-print('\nCalculating standard deviation around this mean.\n')
+print('\nNext calculating standard deviation around this mean.\n')
 
 nSamples = 0
 for data_date in pd.date_range(start_date, end_date):
@@ -116,7 +116,7 @@ for data_date in pd.date_range(start_date, end_date):
   nSamples +=1
 
 sdev_fcst_err = np.sqrt( cumSum/(nSamples-1))
-print(f'Calculated 3D standard deviation of forecast error using\t {nSamples} samples.')
+print(f'Dask calculated 3D standard deviation of forecast error using\t {nSamples} samples.')
 # -- 
 
 # Save output file(s)
@@ -126,6 +126,8 @@ fName_mean = output_data_path_root + '{}/'.format(exp_name) +\
 fName_sdev = output_data_path_root + '{}/'.format(exp_name) +\
   '3d_sdev_{}_{}_{}.nc'.format(var_name_short, start_date.strftime("%Y%m%d"), end_date.strftime("%Y%m%d"))
   
-print(f'Calculating and saving standard deviation to:\n{fName_mean}\nThis will take some time.')
+print(f'Saving averaged field to:\n{fName_mean}')
 mean_fcst_err.to_netcdf( fName_mean)
+
+print(f'Calculating and saving standard deviation to:\n{fName_sdev}\nThis will take some time.')
 sdev_fcst_err.compute().to_netcdf( fName_sdev)
