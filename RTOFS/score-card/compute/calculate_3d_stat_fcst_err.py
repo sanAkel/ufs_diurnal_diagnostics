@@ -7,6 +7,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import xarray as xr
+from dask.diagnostics import ProgressBar
 
 from utils import get_forecast_error
 
@@ -91,8 +92,10 @@ for data_date in pd.date_range(start_date, end_date):
 
   nSamples +=1
 
-mean_fcst_err = (cumSum/nSamples).compute()
-print(f'Calculated 3D mean forecast error using\t {nSamples} samples.')
+print(f'Calculating 4D mean forecast error using\t {nSamples} samples...')
+with ProgressBar():
+  mean_fcst_err = (cumSum/nSamples).compute()
+mean_fcst_err.persist()
 
 # -- 2. Calculate standard deviation
 print('\nNext calculating standard deviation around this mean.\n')
@@ -116,7 +119,7 @@ for data_date in pd.date_range(start_date, end_date):
   nSamples +=1
 
 sdev_fcst_err = np.sqrt( cumSum/(nSamples-1))
-print(f'Dask calculated 3D standard deviation of forecast error using\t {nSamples} samples.')
+print(f'Dask calculated 4D standard deviation of forecast error using\t {nSamples} samples.')
 # -- 
 
 # Save output file(s)
@@ -127,7 +130,9 @@ fName_sdev = output_data_path_root + '{}/'.format(exp_name) +\
   '3d_sdev_{}_{}_{}.nc'.format(var_name_short, start_date.strftime("%Y%m%d"), end_date.strftime("%Y%m%d"))
   
 print(f'Saving averaged field to:\n{fName_mean}\n This may take some time.')
-mean_fcst_err.to_netcdf( fName_mean)
+with ProgressBar():
+  mean_fcst_err.to_netcdf( fName_mean)
 
 print(f'Calculating and saving standard deviation to:\n{fName_sdev}\n Be patient!')
-sdev_fcst_err.compute().to_netcdf( fName_sdev)
+with ProgressBar():
+  sdev_fcst_err.compute().to_netcdf( fName_sdev)
