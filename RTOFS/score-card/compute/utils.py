@@ -3,6 +3,7 @@
 import os
 import sys
 import glob as glob
+import numpy as np
 import pandas as pd
 import xarray as xr
 
@@ -34,7 +35,7 @@ def get_forecast_error( proc_date, data_path, exp_name, \
   #  forecast_ds.load()
   forecast_ds = rename_RTOFS_time(forecast_ds)
 
-  #var_name = list(forecast_ds.keys())
+  var_name = list(forecast_ds.keys())
   #print("Differencing:\t{}".format(var_name))
 
   nFcst = len(forecast_ds.time)
@@ -60,5 +61,9 @@ def get_forecast_error( proc_date, data_path, exp_name, \
 
   # Calculate forecast error= forecast - nowcast
   fcst_err = forecast_ds-nowcast_ds
+
+  # For aggregation, we need to drop 'Date', lat and lon aren't useless too
+  fcst_err = fcst_err.drop_vars(["Date", "Longitude", "Latitude"])
+  fcst_err = fcst_err.assign_coords(time=np.arange(1, fcst_nDays+1))
 
   return forecast_fNames, nowcast_fNames, fcst_err
