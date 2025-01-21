@@ -71,7 +71,6 @@ nowcast_file_pref  = args.nowcast_file_pref
 file_suff = args.file_suff
 # --
 
-
 # -- 1. Calculate mean
 
 nSamples = 0
@@ -79,6 +78,9 @@ for data_date in pd.date_range(start_date, end_date):
 
   data_date_str = data_date.strftime("%Y-%m-%d")
   print(data_date_str)
+  if data_date_str == "2024-12-12": # Known to not have 8-day forecast- breaks stats. Skip it!
+    print("Skip reading data on this -- blacklisted -- date")
+    continue
   # get fcst_err = fcst - anal, it is 4-D dataset: 3d + forecast duration (8-days) 
   [fcst_fNames, anal_fNames, fcst_err] = get_forecast_error( data_date, data_path_root, exp_name, \
   forecast_file_pref, nowcast_file_pref, var_name_short, file_suff)
@@ -95,6 +97,7 @@ for data_date in pd.date_range(start_date, end_date):
 print(f'Calculating 4D mean forecast error using\t {nSamples} samples...')
 with ProgressBar():
   mean_fcst_err = (cumSum/nSamples).compute()
+
 mean_fcst_err.persist()
 
 # -- 2. Calculate standard deviation
@@ -105,6 +108,9 @@ for data_date in pd.date_range(start_date, end_date):
 
   data_date_str = data_date.strftime("%Y-%m-%d")
   print(data_date_str)
+  if data_date_str == "2024-12-12": # Known to not have 8-day forecast- breaks stats. Skip it!
+    print("Skip reading data on this -- blacklisted -- date")
+    continue
   # get fcst_err = fcst - anal, it is 4-D dataset: 3d + forecast duration (8-days) 
   [fcst_fNames, anal_fNames, fcst_err] = get_forecast_error( data_date, data_path_root, exp_name, \
   forecast_file_pref, nowcast_file_pref, var_name_short, file_suff)
