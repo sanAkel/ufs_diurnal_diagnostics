@@ -3,10 +3,13 @@
 import numpy as np
 import pandas as pd
 import xarray as xr
-from matplotlib import pyplot as plt
 
 import warnings
 warnings.filterwarnings('ignore')
+
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 
 var_names = {
         "s": "salinity",
