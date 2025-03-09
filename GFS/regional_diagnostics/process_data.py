@@ -29,7 +29,7 @@ fcst_days_skip = "3D"
 fcst_dir_suff = "/00/model/ocean/history/"
 fcst_file_pref = "gfs.ocean.t00z.6hr_avg.f"
 fcst_file_suff = ".nc"
-vars_to_extract = ["SST", "SSS"] # must match names of variables in netcdf file: needs prior inspection or diag_table of model run.
+vars_to_extract = ["SST", "SSS", "geolon", "geolat"] # must match names of variables in netcdf file: needs prior inspection or diag_table of model run.
 
 fcst_dir_pre = "/scratch1/NCEPDEV/stmp2/Santha.Akella/data/HR5/" +\
                "data_prepared/" + exp_name + "/"
