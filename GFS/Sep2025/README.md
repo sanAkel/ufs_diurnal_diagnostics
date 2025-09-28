@@ -22,7 +22,7 @@ where `{expName}` = B1, B2, B3.
     - `B1`: 20250101 - 20250201: 32 days.
     - `B2`: 20250101 - 20250130: 30 days.
     - `B3`: 20250101 - 20250126: 26 days.
-  - On start date, starting hour: `06`.
+  - On start date, the starting hour: `06`.
 
 # Analysis/Plots:
 - See path to figures: `/home/Santha.Akella/for_folks/JiandeW/Sep2025/figs/`
