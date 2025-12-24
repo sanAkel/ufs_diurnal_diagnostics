@@ -66,7 +66,7 @@ The complexity of this script is a direct result of ??
 ## Usage
 1. Compile: `gfortran prepbufr_no_dbuoy.F90 -o no_dbuoy.x $BUFRLIB_PATH`
 2. Run: `./no_dbuoy.x <input_prepbufr> <output_prepbufr>`
-
+3. Wrapper script: `./process_and_verify.sh` that does the culling.
 
 # Tried a py version, see below for details.
 - Use `./prepbufr_no_dbuoy.py -h` without arguments will echo usage information:
