@@ -39,3 +39,74 @@ All works well, find
 ```
 
 ## Finish by extracting buoys out of the prepbufr and save a new version of prepbuf
+- It performs a surgical extraction of NCEP Prepbufr data. 
+- To remove Drifting Buoys (Report Type 564).
+- While preserving Ship observations (Report Type 522) and all other atmospheric data.
+
+### Why this logic is "Ugly" (Room to Improve)
+The complexity of this script is a direct result of ??
+
+1. **Mnemonic Fragility**: The library lacks a unified metadata abstraction.
+   We are forced to check both `TYP` and `T29` mnemonics because NCEP Prepbufr 
+   versions are inconsistent in how they label "Report Type."
+2. **Buffering Conflict**: `BUFRLIB` cannot natively mix 
+   message-level copying (`COPYMG`) and subset-level writing (`WRITSB`) 
+   without explicit manual flushing (`CLOSMG`). 
+   Failure to manage this leads to silent file corruption.
+3. **Metadata Decoupling**: Tools like `binv` report subset counts 
+   based on Section 3 headers (the "Index"), which often do not reflect 
+   the actual payload in Section 4 after surgery. 
+   This tool relies on internal counters for truth, not library utilities.
+4. **Mixed Categories**: 
+   - Drifting Buoys are frequently "misplaced" in `ADPSFC` messages 
+   - Instead of `SFCSHP`. 
+   - This tool forces a full inspection of both categories to ensure the 564 count "squares" with spatial plots.
+
+## Usage
+1. Compile: `gfortran prepbufr_no_dbuoy.F90 -o no_dbuoy.x $BUFRLIB_PATH`
+2. Run: `./no_dbuoy.x <input_prepbufr> <output_prepbufr>`
+
+
+# Tried a py version, see below. It failed because: 
+- Use `./prepbufr_no_dbuoy.py -h` without arguments will echo usage information:
+
+```
+usage: prepbufr_no_dbuoy.py [-h] --date DATE [--code CODE] [--base_dir BASE_DIR]
+
+Filter BUFR, count subsets, and track file sizes.
+
+options:
+  -h, --help           show this help message and exit
+  --date DATE          Date to process (YYYYMMDD)
+  --code CODE          The dataSubCategory to extract (1 for SFCSHP)
+  --base_dir BASE_DIR  Root directory for files
+```
+
+- Example usage: `./prepbufr_no_dbuoy.py --date 20251222` 
+- **Note**: `CODE` and `BASE_DIR` have defaults; provide inputs for them as needed.
+- All goes well, see output similar to the following:
+
+```
+[Santha.Akella@ufe03 cull_dbuoy]$ ./prepbufr_no_dbuoy.py --date 20251222
+--- Scan Started: Date=20251222 | Target SubCat=1 ---
+
+[Cycle 00z]
+  ADPSFC   | Reports: 165320 | Extracted: 3     | Kept: 165317 | Size: 14.19 MB
+  ADPUPA   | Reports: 1187   | Extracted: 6     | Kept: 1181 | Size: 7.08 MB
+  AIRCFT   | Reports: 2071   | Extracted: 3     | Kept: 2068 | Size: 0.22 MB
+  ASCATW   | Reports: 228657 | Extracted: 3     | Kept: 228654 | Size: 13.37 MB
+  RASSDA   | Reports: 156    | Extracted: 3     | Kept: 153 | Size: 0.11 MB
+  SATWND   | Reports: 205043 | Extracted: 3     | Kept: 205040 | Size: 14.54 MB
+  SFCSHP   | Reports: 53833  | Extracted: 3     | Kept: 53830 | Size: 3.93 MB
+  SYNDAT   | Reports: 29     | Extracted: 3     | Kept: 26 | Size: 0.05 MB
+  VADWND   | Reports: 1965   | Extracted: 3     | Kept: 1962 | Size: 4.96 MB
+  Summary 00z: Reports=658261 | Ext=30 | Master=658231
+  Sizes 00z:   Orig=58.44 MB | Ext=0.43 MB | Master=57.99 MB
+```
+
+## Remarks:
+- I used the `eccodes` and a `py` utility - this was/is my preferred route than a Fortran utility.
+- But it never worked; see above counts: `SFCSHP   | Reports: 53833  | Extracted: 3     | Kept: 53830 | Size: 3.93 MB`
+  - They need to change by thousands!
+- Pay attention to:
+  Table A mnemonic (e.g., NC001001 for ships, NC001003 for drifting buoys).

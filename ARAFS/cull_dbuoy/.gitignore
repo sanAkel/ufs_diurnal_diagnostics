@@ -1,2 +1,5 @@
 *.csv
 *.png
+
+# executable(s)
+*.x
