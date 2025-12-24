@@ -1,12 +1,14 @@
 # Steps to: cull out drifter buoy data from prepbufr
 
 ## Get prepbufr files. Two options:
+
 1.a Get them from wcoss, see [README_prepbufr.md](https://github.com/sanAkel/ufs_diurnal_diagnostics/blob/main/ARAFS/cull_dbuoy/README_prepbufr.md#path-to-prepbufr-files)
+
 1.b From [nomads server](https://nomads.ncep.noaa.gov/pub/data/nccf/com/obsproc/prod/gdas.20251223/) 
     which has only the most _recent_ data.
 
 ## Build NCEPLIBS-bufr, see [these for instructions.](https://github.com/sanAkel/ufs_diurnal_diagnostics/blob/main/ARAFS/cull_dbuoy/README_prepbufr.md#try-following-anyway-we-do-not-need-all-of-the-above)
-**Note**: Load cmake module, for example: `ml cmake/3.30.2` before building.
+**Note**: Load cmake module, for example: `ml cmake/3.30.2` on [Ursa](https://docs.rdhpcs.noaa.gov/systems/ursa_user_guide.html) before building.
 
 ## Make sure you can correctly identify and extract the specific (drifter buoy) type.
 - Use `extract_type.sh`.
@@ -36,4 +38,4 @@ All works well, find
 -rw-r--r-- 1 Santha.Akella rstprod 370K Dec 24 05:02 drifting_buoy_panels_20251222.png
 ```
 
-## Finish by extracting buoys out of the prepbufr and saving a new version of prepbuf
+## Finish by extracting buoys out of the prepbufr and save a new version of prepbuf
