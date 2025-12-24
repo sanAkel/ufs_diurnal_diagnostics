@@ -67,7 +67,7 @@ The complexity of this script is a direct result of ??
 2. Run: `./no_dbuoy.x <input_prepbufr> <output_prepbufr>`
 
 
-# Tried a py version, see below. It failed because: 
+# Tried a py version, see below for details.
 - Use `./prepbufr_no_dbuoy.py -h` without arguments will echo usage information:
 
 ```
