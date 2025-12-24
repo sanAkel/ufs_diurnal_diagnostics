@@ -37,6 +37,7 @@ All works well, find
 ```
 -rw-r--r-- 1 Santha.Akella rstprod 370K Dec 24 05:02 drifting_buoy_panels_20251222.png
 ```
+[This figure is displayed here.](https://github.com/sanAkel/ufs_diurnal_diagnostics/issues/1#issuecomment-3689242395)
 
 ## Finish by extracting buoys out of the prepbufr and save a new version of prepbuf
 - It performs a surgical extraction of NCEP Prepbufr data. 
