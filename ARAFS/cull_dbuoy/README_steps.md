@@ -64,7 +64,7 @@ The complexity of this script is a direct result of ??
    - This tool forces a full inspection of both categories to ensure the 564 count "squares" with spatial plots.
 
 ## Usage
-1. Compile: `gfortran prepbufr_no_dbuoy.F90 -o no_dbuoy.x $BUFRLIB_PATH`
+1. Compile: `gfortran prepbufr_no_dbuoy.F90 -o no_dbuoy.x $BUFRLIB_PATH`; see [example here.](https://github.com/sanAkel/ufs_diurnal_diagnostics/blob/51bc8b439e9dc77b0b3b9f72507d2028b90971cc/ARAFS/cull_dbuoy/compile.sh#L8)
 2. Run: `./no_dbuoy.x <input_prepbufr> <output_prepbufr>`
 3. Wrapper script: `./process_and_verify.sh` that does the culling.
 
