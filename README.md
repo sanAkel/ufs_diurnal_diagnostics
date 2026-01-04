@@ -41,6 +41,5 @@ conda activate /scratch2/NCEPDEV/marineda/Santha.Akella/envs/py31013
 
 ## On Ursa
 ```
-source /collab1/data/Santha.Akella/miniconda3/bin/activate
-conda activate xesmf_env
+source /home/Santha.Akella/pw/software/.miniconda3c/bin/activate
 ```
